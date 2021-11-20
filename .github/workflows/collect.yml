@@ -37,7 +37,7 @@ jobs:
           pip install -r requirements.txt
       - name: Execute Scraping Script
         run: |
-          workflow_scrape.py
+          python workflow_scrape.py
           
       - name: Commit and Push Files
         run: |
