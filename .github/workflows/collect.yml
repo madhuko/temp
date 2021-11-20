@@ -9,7 +9,7 @@ on:
 #   push:
 #     branches:
 #       - main
-#  schedule:
+ schedule:
     - cron: '15 10 * * *' # Every Day at 4PM NST (10:15am UTC)
 
   # Allows you to run this workflow manually from the Actions tab
