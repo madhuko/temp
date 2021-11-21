@@ -68,7 +68,7 @@ dater0=init_ohlc.t.iloc[-1]
 try:
     print(dater0)
 #     requests.get("https://raw.githubusercontent.com/madhuko/temp/main/fs/{}".format(dater0)).reason=='OK'
-    pd.read_csv("https://raw.githubusercontent.com/madhuko/temp/main/fs/{}".format(dater))
+    pd.read_csv("https://raw.githubusercontent.com/madhuko/temp/main/fs/{}".format(dater0))
     print("Data is already there")
 except:
     df=get_latest_fs()
