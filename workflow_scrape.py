@@ -61,7 +61,7 @@ def getfs_nepsealpha(symbol,s):
     return new_df[1]
 
 # %%
-init_ohlc=chart_data(provider='merolagani',symbol="NEPSE",fromtime=datetime.date(2019,1,1),totime=datetime.datetime.now(),resolution="1D")
+init_ohlc=chart_data(provider='merolagani',symbol="NEPSE",fromtime=datetime.date(2022,1,1),totime=datetime.datetime.now(),resolution="1D")
 init_ohlc.t=init_ohlc.t.dt.date
 dater0=init_ohlc.t.iloc[-1]
 # %%
