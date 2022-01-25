@@ -18,7 +18,7 @@ chart_provider={
 'nepsealpha':'https://nepsealpha.com/trading/1/history?symbol={symbol}&resolution={resolution}&from={fromtime}&to={totime}&currencyCode=NRS',
 'nepsedata':'https://nepsedata.com/history?symbol={symbol}&resolution={resolution}&from={fromtime}&to={totime}&currencyCode=NRS'
 }
-def chart_data(provider='merolagani',symbol="NEPSE",fromtime=datetime.date(2019,1,1),totime=datetime.datetime.now(),resolution="1D"):
+def chart_data(provider='nepsealpha',symbol="NEPSE",fromtime=datetime.date(2019,1,1),totime=datetime.datetime.now(),resolution="1D"):
     """returns data fetched from nepsealpha,merocapital,merolagani and nepsechart.\nwarning!! \nNepsechart,merocapital takes D for daily resolution.\nMerocapital,nepsedata gives unadjusted chart)"""
     fromtime =int(time.mktime(fromtime.timetuple()))
     totime =int(time.mktime(totime.timetuple())) 
@@ -61,7 +61,7 @@ def getfs_nepsealpha(symbol,s):
     return new_df[1]
 
 # %%
-init_ohlc=chart_data(provider='merolagani',symbol="NEPSE",fromtime=datetime.date(2022,1,1),totime=datetime.datetime.now(),resolution="1D")
+init_ohlc=chart_data(provider='merolaganida',symbol="NEPSE",fromtime=datetime.date(2022,1,1),totime=datetime.datetime.now(),resolution="1D")
 init_ohlc.t=init_ohlc.t.dt.date
 dater0=init_ohlc.t.iloc[-1]
 # %%
