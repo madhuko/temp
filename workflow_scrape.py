@@ -23,6 +23,7 @@ def chart_data(provider='nepsealpha',symbol="NEPSE",fromtime=datetime.date(2019,
     fromtime =int(time.mktime(fromtime.timetuple()))
     totime =int(time.mktime(totime.timetuple())) 
     url=chart_provider.get(provider)
+    print(url.format(symbol=symbol,resolution=resolution,fromtime=fromtime,totime=totime))
     df=pd.read_json(requests.get(url.format(symbol=symbol,resolution=resolution,fromtime=fromtime,totime=totime),headers=header).content)
     df['t']=df['t'].apply(datetime.datetime.utcfromtimestamp)
     df.drop('s',axis=1,inplace=True)
