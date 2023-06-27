@@ -28,38 +28,46 @@ def chart_data(provider='nepsealpha',symbol="NEPSE",fromtime=datetime.date(2019,
     df['t']=df['t'].apply(datetime.datetime.utcfromtimestamp)
     df.drop('s',axis=1,inplace=True)
     return df
-def get_latest_fs():
-    s=requests.Session()
-    s.headers.update(header)
-    s.get("https://nepsealpha.com/trading/chart")
-    df=pd.DataFrame()
-    live_market=pd.read_html("https://www.merolagani.com/LatestMarket.aspx")[0]
-    for sym in live_market["Symbol"]:
-        if "/" in sym:
-            continue
-        try:
-          ram=getfs_nepsealpha(sym,s)
-        except:
-          s=requests.Session()
-          s.headers.update(header)
-          s.get("https://nepsealpha.com/trading/chart")
-          ram=getfs_nepsealpha(sym,s)
-        df=pd.concat([df,ram])
-        print("Collected data of {}".format(sym))
-    df.columns='contract buyer seller qty rate amt symbol'.split()
-    df["amt"]=df["amt"].apply(lambda x: x.replace("NPR",""))
-    df["amt"]=df["amt"].apply(lambda x: x.replace(",",""))
-    df.amt=df.amt.astype(float)
-    df.buyer=df.buyer.astype(str)
-    df.seller=df.seller.astype(str)
-    df["rate"]=df["rate"].apply(lambda x: x.replace("NPR ",""))
-    return df
 
-def getfs_nepsealpha(symbol,s):
-    fs=s.get("https://nepsealpha.com/floorsheet_ajx/{}/index".format(symbol))
-    new_df=pd.read_html(sio(fs.json()['html']))
-    new_df[1]["Symbol"]=symbol
-    return new_df[1]
+def get_fs_chukul(dater):
+  df= requests.get(f"https://chukul.com/api/data/floorsheet/bydate/?date={dater}")
+  df2=pd.read_json(json.dumps(df.json()))
+  df3=df2["transaction	symbol	buyer	seller	quantity	rate	amount".split()]
+  df3.columns="contract,symbol,buyer,seller,qty,rate,amt".split(",")
+  return df3
+
+# def get_latest_fs():
+#     s=requests.Session()
+#     s.headers.update(header)
+#     s.get("https://nepsealpha.com/trading/chart")
+#     df=pd.DataFrame()
+#     live_market=pd.read_html("https://www.merolagani.com/LatestMarket.aspx")[0]
+#     for sym in live_market["Symbol"]:
+#         if "/" in sym:
+#             continue
+#         try:
+#           ram=getfs_nepsealpha(sym,s)
+#         except:
+#           s=requests.Session()
+#           s.headers.update(header)
+#           s.get("https://nepsealpha.com/trading/chart")
+#           ram=getfs_nepsealpha(sym,s)
+#         df=pd.concat([df,ram])
+#         print("Collected data of {}".format(sym))
+#     df.columns='contract buyer seller qty rate amt symbol'.split()
+#     df["amt"]=df["amt"].apply(lambda x: x.replace("NPR",""))
+#     df["amt"]=df["amt"].apply(lambda x: x.replace(",",""))
+#     df.amt=df.amt.astype(float)
+#     df.buyer=df.buyer.astype(str)
+#     df.seller=df.seller.astype(str)
+#     df["rate"]=df["rate"].apply(lambda x: x.replace("NPR ",""))
+#     return df
+
+# def getfs_nepsealpha(symbol,s):
+#     fs=s.get("https://nepsealpha.com/floorsheet_ajx/{}/index".format(symbol))
+#     new_df=pd.read_html(sio(fs.json()['html']))
+#     new_df[1]["Symbol"]=symbol
+#     return new_df[1]
 
 # %%
 init_ohlc=chart_data(provider='merolaganida',symbol="NEPSE",fromtime=datetime.date(2022,1,1),totime=datetime.datetime.now(),resolution="1D")
@@ -72,7 +80,7 @@ try:
     pd.read_csv("https://raw.githubusercontent.com/madhuko/temp/main/fs/{}".format(dater0))
     print("Data is already there")
 except:
-    df=get_latest_fs()
+    df=get_fs_chukul(dater0)
     df.to_csv("fs/"+ str(dater0),index=False)
 
     
