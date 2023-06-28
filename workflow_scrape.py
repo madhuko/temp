@@ -1,7 +1,7 @@
 #%% 
 import pandas as pd
-import datetime,time,requests
-from io import StringIO as sio
+import datetime,time,requests,json
+# from io import StringIO as sio
 
 header={
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36 Edg/90.0.818.66',
